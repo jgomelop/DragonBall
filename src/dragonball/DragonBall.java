@@ -44,16 +44,16 @@ public class DragonBall {
             }
             /*System.out.println();*/
         }
-        
+
         /* # Representa la posicion del jugador*/
         String[][] mapString = intMapToStringMap(map);
         mapString[0][0] = "#";
-        
+
         for (int i = 0; i <= mapString.length - 1; i++) {
             for (int j = 0; j <= mapString[0].length - 1; j++) {
                 System.out.print(mapString[i][j] + " ");
             }
-            System.out.println();
+            /*System.out.println();*/
 
         }
     }
