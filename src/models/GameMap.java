@@ -6,96 +6,120 @@ package models;
  */
 public class GameMap {
 
-    private String[][] matrix = new String[5][5];
-    private int  playerPosI = 0; // posición inicial i del jugador
-    private int  playerPosJ = 0; // posición inicial j del jugador
+    private String[][] playerMatrix = new String[5][5];
+    private int[][] eventMatrix = new int[5][5];
+    private Position lastPlayerPos;
 
+    public GameMap(Position initialPlayerPosition) {
 
-    public GameMap() {
-        
-        /**
-         * Rellena la matriz matrix con "0" si 
-         */
+        this.lastPlayerPos = initialPlayerPosition;
+
+        generateEventMatrix();
+        generateInitialPlayerMatrix();
+
+    }
+
+    /**
+     * Retorna "0" o "1" dependiendo del valor de probabilidad prob de acuerdo a
+     * la función de probabilidad uniforme de Math.random
+     *
+     * @param prob float. Probabilidad. Valor entre 0 y 1.
+     * @return "1" si random_int es menor o igual a prob, "0" en lo contrario.
+     */
+    private int generateValue(float prob) {
+        float random_int = (float) Math.random();
+        if (random_int <= prob) {
+            return 1;
+        }
+        return 0;
+    }
+
+    private void generateEventMatrix() {
         for (int i = 0; i <= 4; i++) {
             for (int j = 0; j <= 4; j++) {
-                if (i == this.playerPosI && j == this.playerPosJ) { // Posición inicial del jugador
-                    this.matrix[i][j] = "#";
-                } else if (i == 4 && j == 4){ //Pos. Final. Meta del juego
-                    this.matrix[i][j] = "-";
-                }
-                else {
+                if ((i == this.lastPlayerPos.getI()
+                        && j == this.lastPlayerPos.getJ())
+                        || (i == 4 && j == 4)) { // Posición inicial del jugador
+
+                    this.eventMatrix[i][j] = 0;
+                } else {
                     // Genera valores "0" o "1" dependiendo de probabilidad
                     // en este caso, 65%
-                    this.matrix[i][j] = generateValue((float) 0.65);
+                    this.eventMatrix[i][j] = generateValue((float) 0.65);
                 }
             }
         }
     }
 
-    /**
-     * Retorna "0" o "1" dependiendo del valor de probabilidad prob
-     * de acuerdo a la función de probabilidad uniforme de Math.random
-     * @param prob float. Probabilidad. Valor entre 0 y 1.
-     * @return  "1" si random_int es menor o igual a prob, "0" en lo contrario.
-     */
-    private String generateValue(float prob) {
-        float random_int = (float) Math.random();
-        if (random_int <= prob) {
-            return String.valueOf(1);
-        }
-        return String.valueOf(0);
-    }
-    
-    /* Imprime el matrixa en pantalla */
-    public void printMap() {
+    private void generateInitialPlayerMatrix() {
         for (int i = 0; i <= 4; i++) {
             for (int j = 0; j <= 4; j++) {
-                 System.out.print(this.matrix[i][j] + " ");
+                if (i == this.lastPlayerPos.getI() && j == this.lastPlayerPos.getJ()) {
+                    this.playerMatrix[i][j] = "#";
+                } else if (i == 4 && j == 4) {
+                    this.playerMatrix[i][j] = "-";
+                } else {
+                    // Puntos (0,1) y (1,0) muestran valores de evento
+                    if ((i == 0 && j == 1) || (i == 1 && j == 0)) {
+                        this.playerMatrix[i][j] = String.valueOf(this.eventMatrix[i][j]);
+                    } else {
+                        this.playerMatrix[i][j] = "?";
+                    }
+                }
+            }
+        }
+
+    }
+
+    /* Imprime el matriz de String de jugador en pantalla */
+    public void printPlayerMap() {
+        for (int i = 0; i <= 4; i++) {
+            for (int j = 0; j <= 4; j++) {
+                System.out.print(this.playerMatrix[i][j] + " ");
             }
             System.out.println();
         }
     }
-    
+
+    public void printEventMap() {
+        for (int i = 0; i <= 4; i++) {
+            for (int j = 0; j <= 4; j++) {
+                System.out.print(this.eventMatrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
     /**
-     * 
+     *
      * @param i Valor de la i-ésima fila a consultar
      * @param j Valor de la j-ésima columna a consultar
      * @return Valor String de la posición (i,j) de la matriz
      */
-    public String getValue(int i, int j){
-        return this.matrix[i][j];
+    public String getValue(int i, int j) {
+        return this.playerMatrix[i][j];
     }
-    
+
     /**
-     * 
+     *
      * @param s String. Valor a insertar en la matriz.
      * @param i Valor de la i-ésima fila a insertar.
      * @param j Valor de la j-ésima columna a insertar.
      */
-    public void setValue(String s, int i, int j){
-        this.matrix[i][j] = s;
+    public void setValue(String s, int i, int j) {
+        this.playerMatrix[i][j] = s;
     }
 
-    public int getPlayerPosI() {
-        return playerPosI;
+    public Position getLastPlayerPos() {
+        return lastPlayerPos;
     }
 
-    public void setPlayerPosI(int playerPosI) {
-        this.playerPosI = playerPosI;
+    public void setLastPlayerPos(Position lastPlayerPos) {
+        this.lastPlayerPos = lastPlayerPos;
     }
 
-    public int getPlayerPosJ() {
-        return playerPosJ;
+    public String[][] getPlayerMatrix() {
+        return playerMatrix;
     }
 
-    public void setPlayerPosJ(int playerPosJ) {
-        this.playerPosJ = playerPosJ;
-    }
-
-    public String[][] getMatrix() {
-        return matrix;
-    }
-
-    
-    
 }

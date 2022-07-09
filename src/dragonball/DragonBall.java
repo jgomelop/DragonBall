@@ -39,6 +39,7 @@ public class DragonBall {
                 "a: Mover a la izquierda",
                 "s: Mover abajo",
                 "d: Mover a la derecha",
+                "p: Mostrar mapa",
                 "e: salir",
                 StringRepeat(20, "-")
         );
@@ -74,14 +75,14 @@ public class DragonBall {
 
             case "s":
 
-                if (pos.getJ() < mapa.getMatrix()[0].length - 1) {
+                if (pos.getJ() < mapa.getPlayerMatrix()[0].length - 1) {
                     pos.setJ(pos.getJ() + 1); 
                 }
  
                 break;
 
             case "d":
-                if (pos.getI() < mapa.getMatrix().length - 1) {
+                if (pos.getI() < mapa.getPlayerMatrix().length - 1) {
                     pos.setI(pos.getI() + 1);
                 }
                 break;
@@ -90,7 +91,6 @@ public class DragonBall {
         String new_i = String.valueOf(pos.getI());
         String new_j = String.valueOf(pos.getJ());
 
-        //String msg =   "(" + old_i + "," + old_j + ") -> ("+ new_i+","  ; 
         String msg = String.format("(%s,%s) -> (%s,%s)", old_i, old_j, new_i, new_j);
 
         System.out.println(msg);
@@ -113,21 +113,22 @@ public class DragonBall {
             historial = registro.output();
         }
 
-        GameMap mapa = new GameMap();
+        
         Position playerPos = new Position(0, 0);
-        //mapa.printMap();
+        GameMap map = new GameMap(playerPos);
 
-        int sw = 0;
         String sel;
-        while (sw == 0) {
+        while (true) {
             System.out.println("");
             sel = movementMenu();
             if (sel.equals("e")) {
                 break;
-            } else {
-                movementHandler(sel, playerPos, mapa);
-                System.out.println(sel);
-                playerPos.printPos();
+            } 
+            else if (sel.equals("p")){
+                map.printPlayerMap();
+            }
+            else {
+                movementHandler(sel, playerPos, map);
             }
         }
 
