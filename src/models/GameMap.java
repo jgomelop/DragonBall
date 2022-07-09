@@ -7,7 +7,9 @@ package models;
 public class GameMap {
 
     private String[][] matrix = new String[5][5];
-    private Position posJugador = new Position(0,0);
+    private int  playerPosI = 0; // posición inicial i del jugador
+    private int  playerPosJ = 0; // posición inicial j del jugador
+
 
     public GameMap() {
         
@@ -16,7 +18,7 @@ public class GameMap {
          */
         for (int i = 0; i <= 4; i++) {
             for (int j = 0; j <= 4; j++) {
-                if (i == 0 && j == 0) { // Posición inical del jugador
+                if (i == this.playerPosI && j == this.playerPosJ) { // Posición inicial del jugador
                     this.matrix[i][j] = "#";
                 } else if (i == 4 && j == 4){ //Pos. Final. Meta del juego
                     this.matrix[i][j] = "-";
@@ -73,5 +75,27 @@ public class GameMap {
     public void setValue(String s, int i, int j){
         this.matrix[i][j] = s;
     }
+
+    public int getPlayerPosI() {
+        return playerPosI;
+    }
+
+    public void setPlayerPosI(int playerPosI) {
+        this.playerPosI = playerPosI;
+    }
+
+    public int getPlayerPosJ() {
+        return playerPosJ;
+    }
+
+    public void setPlayerPosJ(int playerPosJ) {
+        this.playerPosJ = playerPosJ;
+    }
+
+    public String[][] getMatrix() {
+        return matrix;
+    }
+
+    
     
 }
