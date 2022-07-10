@@ -51,7 +51,7 @@ public class DragonBall {
         //entradaUsuario.close();
         return seleccion;
     }
-    
+
     public static void movementHandler(String selection, Position pos, GameMap mapa) {
         String old_i = String.valueOf(pos.getI());
         String old_j = String.valueOf(pos.getJ());
@@ -59,31 +59,38 @@ public class DragonBall {
         switch (selection) {
             case "w":
 
-                if (pos.getJ() > 0) {
-                    pos.setJ(pos.getJ() - 1);
+                if (pos.getI() > 0) {
+                    mapa.hideEventsAuxFunction(pos);
+                    pos.setI(pos.getI() - 1);
+                    mapa.showEventsAuxFunction(pos);
+                    break;
                 }
-
-                break;
 
             case "a":
 
-                if (pos.getI() > 0) {
-                    pos.setI(pos.getI() - 1);
+                if (pos.getJ() > 0) {
+                    mapa.hideEventsAuxFunction(pos);
+                    pos.setJ(pos.getJ() - 1);
+                    mapa.showEventsAuxFunction(pos);
                 }
-                
+
                 break;
 
             case "s":
 
-                if (pos.getJ() < mapa.getPlayerMatrix()[0].length - 1) {
-                    pos.setJ(pos.getJ() + 1); 
+                if (pos.getI() < mapa.getPlayerMatrix()[0].length - 1) {
+                    mapa.hideEventsAuxFunction(pos);
+                    pos.setI(pos.getI() + 1);
+                    mapa.showEventsAuxFunction(pos);
                 }
- 
+
                 break;
 
             case "d":
-                if (pos.getI() < mapa.getPlayerMatrix().length - 1) {
-                    pos.setI(pos.getI() + 1);
+                if (pos.getJ() < mapa.getPlayerMatrix().length - 1) {
+                    mapa.hideEventsAuxFunction(pos);
+                    pos.setJ(pos.getJ() + 1);
+                    mapa.showEventsAuxFunction(pos);
                 }
                 break;
         }
@@ -94,6 +101,7 @@ public class DragonBall {
         String msg = String.format("(%s,%s) -> (%s,%s)", old_i, old_j, new_i, new_j);
 
         System.out.println(msg);
+        mapa.printPlayerMap();
 
     }
 
@@ -113,7 +121,6 @@ public class DragonBall {
             historial = registro.output();
         }
 
-        
         Position playerPos = new Position(0, 0);
         GameMap map = new GameMap(playerPos);
 
@@ -123,11 +130,9 @@ public class DragonBall {
             sel = movementMenu();
             if (sel.equals("e")) {
                 break;
-            } 
-            else if (sel.equals("p")){
+            } else if (sel.equals("p")) {
                 map.printPlayerMap();
-            }
-            else {
+            } else {
                 movementHandler(sel, playerPos, map);
             }
         }

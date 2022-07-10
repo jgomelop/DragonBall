@@ -71,6 +71,73 @@ public class GameMap {
 
     }
 
+    public void hideEventsAuxFunction(Position pos) {
+        int i = pos.getI();
+        int j = pos.getJ();
+        try {
+            this.playerMatrix[i][j - 1] = "?";
+        } catch (IndexOutOfBoundsException e) {
+        }
+
+        try {
+            this.playerMatrix[i][j + 1] = "?";
+        } catch (IndexOutOfBoundsException e) {
+        }
+
+        try {
+            this.playerMatrix[i - 1][j] = "?";
+        } catch (IndexOutOfBoundsException e) {
+        }
+
+        try {
+            this.playerMatrix[i + 1][j] = "?";
+        } catch (IndexOutOfBoundsException e) {
+        }
+
+    }
+    
+    public void showEventsAuxFunction(Position pos) {
+        int i = pos.getI();
+        int j = pos.getJ();
+        
+        this.playerMatrix[i][j] = "#";
+        
+        try {
+            this.playerMatrix[i][j-1] = String.valueOf(this.eventMatrix[i][j-1]);
+        } catch (IndexOutOfBoundsException e) {
+        }
+
+        try {
+            this.playerMatrix[i][j+1] = String.valueOf(this.eventMatrix[i][j+1]);
+        } catch (IndexOutOfBoundsException e) {
+        }
+
+        try {
+            this.playerMatrix[i-1][j] = String.valueOf(this.eventMatrix[i-1][j]);
+
+        } catch (IndexOutOfBoundsException e) {
+        }
+
+        try {
+            this.playerMatrix[i+1][j] = String.valueOf(this.eventMatrix[i+1][j]);
+        } catch (IndexOutOfBoundsException e) {
+        } 
+        
+        this.setLastPlayerPos(pos);
+
+    }
+    
+    
+
+    public void updatePlayerMatrix(Position pos) {
+
+        hideEventsAuxFunction(this.lastPlayerPos);
+        showEventsAuxFunction(pos);
+        
+        this.setLastPlayerPos(pos);
+
+    }
+
     /* Imprime el matriz de String de jugador en pantalla */
     public void printPlayerMap() {
         for (int i = 0; i <= 4; i++) {
