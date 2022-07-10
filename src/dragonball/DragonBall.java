@@ -1,11 +1,10 @@
 package dragonball;
-
+import dao.LinkedList;
 /**
  *
  * @author Juan Pablo Gómez López
  */
 public class DragonBall {
-
     public static int generateValue(float prob) {
         float random_int = (float) Math.random();
         if (random_int <= prob) {
@@ -27,11 +26,22 @@ public class DragonBall {
         }
         return stringMap;
     }
-
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
+        LinkedList registro = new LinkedList();
+        registro.add("HP 100");
+        registro.add("Recivió 2 ataques");
+        registro.add("Realizó 5 movimientos");
+        String historial = registro.output();
+
+        while(!historial.equals("/")) {
+            System.out.println(historial); //Prueba del objeto lista
+            historial = registro.output();
+        }
+
         int[][] map = new int[5][5];
         for (int i = 0; i <= 4; i++) {
             for (int j = 0; j <= 4; j++) {
