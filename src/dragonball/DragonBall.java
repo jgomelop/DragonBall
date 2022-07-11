@@ -56,13 +56,16 @@ public class DragonBall {
       * parte de santiago villa
       */
 
+      //espacio en blanco para que no se superpongan los datos 
       System.out.println(" ");
+
       //creacion de personajes 
         Character goku = new Character("Goku", 120, 22, 10);   
         Character vegetta = new Character("Vegetta", 150, 15, 20);  
         Character kirllin = new Character("Kirllin", 90, 8, 8);
         Character freezer = new Character("Freezer", 300, 0, 5);
 
+        //verifico que funcione con el print 
         System.out.println("vida de "+freezer.getName()+" "+freezer.getHp());
 
         hitFreezer(freezer, goku);
@@ -76,9 +79,9 @@ public class DragonBall {
         
         Random gauss = new Random();
         int damageForEnemy = (int) (hero.getAtk()+gauss.nextGaussian()*3);
-        System.out.println("damage de "+hero.getName()+" "+damageForEnemy);
+        System.out.println("damage de "+hero.getName()+" "+damageForEnemy); //verificacion
         enemy.setHp(enemy.getHp()+enemy.getDef()-damageForEnemy);
-        System.out.println("vida de "+enemy.getName()+" "+enemy.getHp());
+        System.out.println("vida de "+enemy.getName()+" "+enemy.getHp()); //mas verificaciones de que funcione
     
     }
 
