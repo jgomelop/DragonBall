@@ -82,7 +82,8 @@ public class DragonBall {
         System.out.println("damage de "+hero.getName()+" "+damageForEnemy); //verificacion
         enemy.setHp(enemy.getHp()+enemy.getDef()-damageForEnemy);
         System.out.println("vida de "+enemy.getName()+" "+enemy.getHp()); //mas verificaciones de que funcione
-    
+        int newDamageHero = hero.getAtk()+enemy.getDef()-damageForEnemy;
+        hero.setAtk(newDamageHero);
     }
 
 
