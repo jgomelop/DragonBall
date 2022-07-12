@@ -10,6 +10,7 @@ package models;
  * @author Juan Pablo
  */
 public class Character {
+
     private String name;
     private int hp;
     private int atk;
@@ -61,5 +62,11 @@ public class Character {
     public String toString() {
         return "Character{" + "name=" + name + ", hp=" + hp + ", atk=" + atk + ", def=" + def + '}';
     }
-    
+
+    public void curar() {
+        int vidaRegenerada = (int) (Math.random() * 10 + 1);
+        this.hp += vidaRegenerada;
+        System.out.println("El personaje se ha curado" + vidaRegenerada + ",su nueva vida es:" + this.hp);
+    }
+
 }
