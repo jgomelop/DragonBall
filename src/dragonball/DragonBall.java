@@ -1,14 +1,27 @@
 package dragonball;
+
 import java.util.Random;
 import dao.LinkedList;
 import models.Character;
+
+
 /**
  *
- * @author Juan Pablo Gómez López
- * Santiago Bañol villa
- * 
+ * @author Juan Pablo Gómez López Santiago Bañol villa
+ *
  */
 public class DragonBall {
+    
+    public static int takeDamage(int characterHp, int characterDef){
+        //generador  del numero aleatorio en el rango
+        int daño = (int) Math.floor(15+Math.random()*16); // [0,1)
+        //daño reducido por la defensa
+        if (daño>=characterDef){
+            return characterHp-daño+characterDef;
+        } else{
+            return characterHp;
+        }
+    }
 
     public static void main(String[] args) {
 
@@ -18,7 +31,7 @@ public class DragonBall {
         registro.add("Realizó 5 movimientos");
         String historial = registro.output();
 
-        while(!historial.equals("/")) {
+        while (!historial.equals("/")) {
             System.out.println(historial); //Prueba del objeto lista
             historial = registro.output();
         }
@@ -47,45 +60,50 @@ public class DragonBall {
             /*System.out.println();*/
 
         }
-
-
+        
+        
+        
 
 //////////////////////////////////////////////
-     
-     /*
+        /*
       * parte de santiago villa
-      */
+         */
+        //espacio en blanco para que no se superpongan los datos 
+        System.out.println(" ");
 
-      //espacio en blanco para que no se superpongan los datos 
-      System.out.println(" ");
-
-      //creacion de personajes 
-        Character goku = new Character("Goku", 120, 22, 10);   
-        Character vegetta = new Character("Vegetta", 150, 15, 20);  
+        //creacion de personajes 
+        Character goku = new Character("Goku", 120, 22, 10);
+        Character vegetta = new Character("Vegetta", 150, 15, 20);
         Character kirllin = new Character("Kirllin", 90, 8, 8);
         Character freezer = new Character("Freezer", 300, 0, 5);
 
         //verifico que funcione con el print 
-        System.out.println("vida de "+freezer.getName()+" "+freezer.getHp());
+        System.out.println("vida de " + freezer.getName() + " " + freezer.getHp());
 
         hitFreezer(freezer, goku);
 
         
+        goku.setHp(takeDamage(goku.getHp(), goku.getDef()));
+        System.out.println(goku.getHp());
+        
+        goku.setHp(takeDamage(goku.getHp(), goku.getDef()));
+        System.out.println(goku.getHp());
+
+
 //////////////////////////////////////////////
     }
-    
+
     //Funcion de daño a freezer
-    public static void hitFreezer(Character enemy, Character hero){
-        
+    public static void hitFreezer(Character enemy, Character hero) {
+
         Random gauss = new Random();
-        int damageForEnemy = (int) (hero.getAtk()+gauss.nextGaussian()*3);
-        System.out.println("damage de "+hero.getName()+" "+damageForEnemy); //verificacion
-        enemy.setHp(enemy.getHp()+enemy.getDef()-damageForEnemy);
-        System.out.println("vida de "+enemy.getName()+" "+enemy.getHp()); //mas verificaciones de que funcione
-        int newDamageHero = hero.getAtk()+enemy.getDef()-damageForEnemy;
+        int damageForEnemy = (int) (hero.getAtk() + gauss.nextGaussian() * 3);
+        System.out.println("damage de " + hero.getName() + " " + damageForEnemy); //verificacion
+        enemy.setHp(enemy.getHp() + enemy.getDef() - damageForEnemy);
+        System.out.println("vida de " + enemy.getName() + " " + enemy.getHp()); //mas verificaciones de que funcione
+        int newDamageHero = hero.getAtk() - enemy.getDef() + damageForEnemy;
         hero.setAtk(newDamageHero);
     }
-
 
     public static int generateValue(float prob) {
         float random_int = (float) Math.random();
