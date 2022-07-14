@@ -8,15 +8,13 @@ public class GameMap {
 
     private String[][] playerMatrix = new String[5][5];
     private int[][] eventMatrix = new int[5][5];
-    private Position lastPlayerPos;
+    private Position playerPos;
 
-    public GameMap(Position initialPlayerPosition) {
-
-        this.lastPlayerPos = initialPlayerPosition;
+    public GameMap() {
+        this.playerPos = new Position(0, 0);
 
         generateEventMatrix();
         generateInitialPlayerMatrix();
-
     }
 
     /**
@@ -37,8 +35,8 @@ public class GameMap {
     private void generateEventMatrix() {
         for (int i = 0; i <= 4; i++) {
             for (int j = 0; j <= 4; j++) {
-                if ((i == this.lastPlayerPos.getI()
-                        && j == this.lastPlayerPos.getJ())
+                if ((i == this.playerPos.getI()
+                        && j == this.playerPos.getJ())
                         || (i == 4 && j == 4)) { // Posición inicial del jugador
 
                     this.eventMatrix[i][j] = 0;
@@ -54,7 +52,7 @@ public class GameMap {
     private void generateInitialPlayerMatrix() {
         for (int i = 0; i <= 4; i++) {
             for (int j = 0; j <= 4; j++) {
-                if (i == this.lastPlayerPos.getI() && j == this.lastPlayerPos.getJ()) {
+                if (i == this.playerPos.getI() && j == this.playerPos.getJ()) {
                     this.playerMatrix[i][j] = "#";
                 } else if (i == 4 && j == 4) {
                     this.playerMatrix[i][j] = "-";
@@ -95,47 +93,44 @@ public class GameMap {
         }
 
     }
-    
+
     public void showEventsAuxFunction(Position pos) {
         int i = pos.getI();
         int j = pos.getJ();
-        
+
         this.playerMatrix[i][j] = "#";
-        
+
         try {
-            this.playerMatrix[i][j-1] = String.valueOf(this.eventMatrix[i][j-1]);
+            this.playerMatrix[i][j - 1] = String.valueOf(this.eventMatrix[i][j - 1]);
         } catch (IndexOutOfBoundsException e) {
         }
 
         try {
-            this.playerMatrix[i][j+1] = String.valueOf(this.eventMatrix[i][j+1]);
+            this.playerMatrix[i][j + 1] = String.valueOf(this.eventMatrix[i][j + 1]);
         } catch (IndexOutOfBoundsException e) {
         }
 
         try {
-            this.playerMatrix[i-1][j] = String.valueOf(this.eventMatrix[i-1][j]);
+            this.playerMatrix[i - 1][j] = String.valueOf(this.eventMatrix[i - 1][j]);
 
         } catch (IndexOutOfBoundsException e) {
         }
 
         try {
-            this.playerMatrix[i+1][j] = String.valueOf(this.eventMatrix[i+1][j]);
+            this.playerMatrix[i + 1][j] = String.valueOf(this.eventMatrix[i + 1][j]);
         } catch (IndexOutOfBoundsException e) {
-        } 
-        
-        this.setLastPlayerPos(pos);
+        }
+
+        this.playerPos = pos;
 
     }
-    
-    
 
     public void updatePlayerMatrix(Position pos) {
 
-        hideEventsAuxFunction(this.lastPlayerPos);
+        hideEventsAuxFunction(this.playerPos);
         showEventsAuxFunction(pos);
-        
-        this.setLastPlayerPos(pos);
 
+        this.playerPos = pos;
     }
 
     /* Imprime el matriz de String de jugador en pantalla */
@@ -163,26 +158,8 @@ public class GameMap {
      * @param j Valor de la j-ésima columna a consultar
      * @return Valor String de la posición (i,j) de la matriz
      */
-    public String getValue(int i, int j) {
-        return this.playerMatrix[i][j];
-    }
-
-    /**
-     *
-     * @param s String. Valor a insertar en la matriz.
-     * @param i Valor de la i-ésima fila a insertar.
-     * @param j Valor de la j-ésima columna a insertar.
-     */
-    public void setValue(String s, int i, int j) {
-        this.playerMatrix[i][j] = s;
-    }
-
-    public Position getLastPlayerPos() {
-        return lastPlayerPos;
-    }
-
-    public void setLastPlayerPos(Position lastPlayerPos) {
-        this.lastPlayerPos = lastPlayerPos;
+    public Position getplayerPos() {
+        return playerPos;
     }
 
     public String[][] getPlayerMatrix() {

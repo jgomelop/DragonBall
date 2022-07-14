@@ -54,7 +54,8 @@ public class DragonBall {
         return seleccion;
     }
 
-    public static void movementHandler(String selection, Position pos, GameMap mapa) {
+    public static void movementHandler(String selection, GameMap mapa) {
+        Position pos = mapa.getplayerPos();
         String old_i = String.valueOf(pos.getI());
         String old_j = String.valueOf(pos.getJ());
 
@@ -152,8 +153,7 @@ public class DragonBall {
         goku.setHp(takeDamage(goku.getHp(), goku.getDef()));
         System.out.println(goku.getHp());
 
-        Position playerPos = new Position(0, 0);
-        GameMap map = new GameMap(playerPos);
+        GameMap map = new GameMap();
 
         String sel;
         while (true) {
@@ -164,7 +164,7 @@ public class DragonBall {
             } else if (sel.equals("p")) {
                 map.printPlayerMap();
             } else {
-                movementHandler(sel, playerPos, map);
+                movementHandler(sel, map);
             }
         }
 
