@@ -14,14 +14,6 @@ import models.Position;
  */
 public class DragonBall {
 
-    public static int generateValue(float prob) {
-        float random_int = (float) Math.random();
-        if (random_int <= prob) {
-            return 1;
-        }
-        return 0;
-    }
-
     public static String StringRepeat(int n, String str) {
         return new String(new char[n]).replace("\0", str);
     }
