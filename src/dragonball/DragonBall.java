@@ -14,27 +14,14 @@ import models.Position;
  */
 public class DragonBall {
 
-    public static String StringRepeat(int n, String str) {
-        return new String(new char[n]).replace("\0", str);
-    }
-
-    /**
-     * Salto de línea. Funcion auxiliar para String join
-     *
-     * @return str
-     */
-    public static String NewLineDelimiter() {
-        String newLine = System.getProperty("line.separator");
-        return newLine;
-    }
-
     public static String movementMenu() {
         String seleccion;
         String msg;
+        String separador = new String(new char[20]).replace("\0", "-");
         Scanner entradaUsuario = new Scanner(System.in);
 
-        msg = String.join(NewLineDelimiter(),
-                StringRepeat(20, "-"),
+        msg = String.join(System.getProperty("line.separator"),
+                separador,
                 "SELECCION DE MOVIMIENTO",
                 "Ingrese un valor para mover personaje. ",
                 "w: Mover arriba",
@@ -43,7 +30,7 @@ public class DragonBall {
                 "d: Mover a la derecha",
                 "p: Mostrar mapa",
                 "e: salir",
-                StringRepeat(20, "-")
+                separador
         );
 
         System.out.println(msg);
@@ -54,7 +41,8 @@ public class DragonBall {
         return seleccion;
     }
 
-    public static void movementHandler(String selection, Position pos, GameMap mapa) {
+    public static void movementHandler(String selection, GameMap mapa) {
+        Position pos = mapa.getplayerPos();
         String old_i = String.valueOf(pos.getI());
         String old_j = String.valueOf(pos.getJ());
 
@@ -64,9 +52,9 @@ public class DragonBall {
                 if (pos.getI() > 0) {
                     mapa.hideEventsAuxFunction(pos);
                     pos.setI(pos.getI() - 1);
-                    mapa.showEventsAuxFunction(pos);
-                    break;
+                    mapa.showEventsAuxFunction(pos); 
                 }
+                break;
 
             case "a":
 
@@ -117,8 +105,11 @@ public class DragonBall {
         int newDamageHero = hero.getAtk() - enemy.getDef() + damageForEnemy;
         hero.setAtk(newDamageHero);
     }
-    
-    public static int takeDamage(int characterHp, int characterDef) {
+
+    public static int takeDamage(Character character) {
+        
+        int characterHp = character.getHp();
+        int characterDef = character.getDef();
         //generador  del numero aleatorio en el rango
         int daño = (int) Math.floor(15 + Math.random() * 16); // [0,1)
         //daño reducido por la defensa
@@ -134,26 +125,14 @@ public class DragonBall {
      */
     public static void main(String[] args) {
 
-        
         //creacion de personajes 
         Character goku = new Character("Goku", 120, 22, 10);
         Character vegetta = new Character("Vegetta", 150, 15, 20);
         Character kirllin = new Character("Kirllin", 90, 8, 8);
         Character freezer = new Character("Freezer", 300, 0, 5);
 
-        //verifico que funcione con el print 
-        System.out.println("vida de " + freezer.getName() + " " + freezer.getHp());
 
-        hitFreezer(freezer, goku);
-
-        goku.setHp(takeDamage(goku.getHp(), goku.getDef()));
-        System.out.println(goku.getHp());
-
-        goku.setHp(takeDamage(goku.getHp(), goku.getDef()));
-        System.out.println(goku.getHp());
-
-        Position playerPos = new Position(0, 0);
-        GameMap map = new GameMap(playerPos);
+        GameMap map = new GameMap();
 
         String sel;
         while (true) {
@@ -164,7 +143,7 @@ public class DragonBall {
             } else if (sel.equals("p")) {
                 map.printPlayerMap();
             } else {
-                movementHandler(sel, playerPos, map);
+                movementHandler(sel, map);
             }
         }
 
