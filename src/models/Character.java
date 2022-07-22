@@ -58,6 +58,17 @@ public class Character {
         this.def = def;
     }
 
+    public int hpLost() {
+        int daño = (int) Math.floor(15 + Math.random() * 16); // [0,1)
+        //daño reducido por la defensa
+        if (daño >= this.def) {
+            setHp(this.hp - daño + this.def);
+            return this.hp;
+        } else {
+            return this.hp;
+        }
+    }
+
     @Override
     public String toString() {
         return "Character{" + "name=" + name + ", hp=" + hp + ", atk=" + atk + ", def=" + def + '}';
