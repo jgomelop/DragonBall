@@ -2,7 +2,8 @@ package dragonball;
 
 import java.util.Random;
 import dao.LinkedList;
-import models.Character;
+import models.Player;
+import models.Enemy;
 import java.util.Scanner;
 import models.GameMap;
 import models.Position;
@@ -95,41 +96,16 @@ public class DragonBall {
 
     }
 
-    public static void hitFreezer(Character enemy, Character hero) {
-
-        Random gauss = new Random();
-        int damageForEnemy = (int) (hero.getAtk() + gauss.nextGaussian() * 3);
-        System.out.println("damage de " + hero.getName() + " " + damageForEnemy); //verificacion
-        enemy.setHp(enemy.getHp() + enemy.getDef() - damageForEnemy);
-        System.out.println("vida de " + enemy.getName() + " " + enemy.getHp()); //mas verificaciones de que funcione
-        int newDamageHero = hero.getAtk() - enemy.getDef() + damageForEnemy;
-        hero.setAtk(newDamageHero);
-    }
-
-    public static int takeDamage(Character character) {
-        
-        int characterHp = character.getHp();
-        int characterDef = character.getDef();
-        //generador  del numero aleatorio en el rango
-        int daño = (int) Math.floor(15 + Math.random() * 16); // [0,1)
-        //daño reducido por la defensa
-        if (daño >= characterDef) {
-            return characterHp - daño + characterDef;
-        } else {
-            return characterHp;
-        }
-    }
-
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
 
         //creacion de personajes 
-        Character goku = new Character("Goku", 120, 22, 10);
-        Character vegetta = new Character("Vegetta", 150, 15, 20);
-        Character kirllin = new Character("Kirllin", 90, 8, 8);
-        Character freezer = new Character("Freezer", 300, 0, 5);
+        Player goku = new Player("Goku", 120, 22, 10);
+        Player vegetta = new Player("Vegetta", 150, 15, 20);
+        Player kirllin = new Player("Kirllin", 90, 8, 8);
+        Enemy freezer = new Enemy("Freezer", 300, 5);
 
 
         GameMap map = new GameMap();

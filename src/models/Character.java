@@ -9,17 +9,14 @@ package models;
  *
  * @author Juan Pablo
  */
-public class Character {
+public abstract class Character {
+    protected String name;
+    protected int hp;
+    protected int def;
 
-    private String name;
-    private int hp;
-    private int atk;
-    private int def;
-
-    public Character(String name, int hp, int atk, int def) {
+    public Character(String name, int hp, int def) {
         this.name = name;
         this.hp = hp;
-        this.atk = atk;
         this.def = def;
     }
 
@@ -42,14 +39,6 @@ public class Character {
         this.hp = hp;
     }
 
-    public int getAtk() {
-        return atk;
-    }
-
-    public void setAtk(int atk) {
-        this.atk = atk;
-    }
-
     public int getDef() {
         return def;
     }
@@ -57,27 +46,10 @@ public class Character {
     public void setDef(int def) {
         this.def = def;
     }
-
-    public int hpLost() {
-        int daño = (int) Math.floor(15 + Math.random() * 16); // [0,1)
-        //daño reducido por la defensa
-        if (daño >= this.def) {
-            setHp(this.hp - daño + this.def);
-            return this.hp;
-        } else {
-            return this.hp;
-        }
-    }
-
+    
     @Override
     public String toString() {
-        return "Character{" + "name=" + name + ", hp=" + hp + ", atk=" + atk + ", def=" + def + '}';
+        return "Character{" + "name=" + name + ", hp=" + hp + ", def=" + def + '}';
     }
-
-    public void curar() {
-        int vidaRegenerada = (int) (Math.random() * 10 + 1);
-        this.hp += vidaRegenerada;
-        System.out.println("El personaje se ha curado" + vidaRegenerada + ",su nueva vida es:" + this.hp);
-    }
-
+    
 }
