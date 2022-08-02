@@ -14,31 +14,38 @@ import java.util.Random;
 public class Player extends Character {
 
     private int atk;
+    private final int MAX_HEALTH;
 
-    public Player(int atk) {
-        this.atk = atk;
-
-    }
-
-    public Player(String name, int atk, int hp, int def) {
+    public Player(String name, int hp, int atk, int def) {
         super(name, hp, def);
         this.atk = atk;
+        this.MAX_HEALTH = hp;
     }
 
-    public void attack(Enemy e) {
+    public int attack(Enemy e) {
+        int std = 2; // Standard Deviation
         Random gauss = new Random();
-        int damageForEnemy = (int) (this.atk + gauss.nextGaussian() * 3);
-        System.out.println("damage de " + super.name + " " + damageForEnemy); //verificacion
-        e.setHp(e.getHp() + e.getDef() - damageForEnemy);
-        System.out.println("vida de " + e.getName() + " " + e.getHp()); //mas verificaciones de que funcione
-        int newDamageHero = this.atk - e.getDef() + damageForEnemy;
-        this.atk = newDamageHero;
+
+        int playerAtkValue = (int) Math.round(this.atk + gauss.nextGaussian() * std);
+
+        int effectiveDmgValue = playerAtkValue - e.getDef();
+
+        if (effectiveDmgValue > 0) {
+            e.setHp(e.getHp() - effectiveDmgValue);
+            return effectiveDmgValue;
+        }
+        return 0;
     }
 
-    public void heal() {
+    public int heal() {
+
         int vidaRegenerada = (int) (Math.random() * 10 + 1);
         this.hp += vidaRegenerada;
-        System.out.println("El personaje se ha curado" + vidaRegenerada + ",su nueva vida es:" + this.hp);
+        return vidaRegenerada;
+    }
+
+    public int getMaxHealth() {
+        return this.MAX_HEALTH;
     }
 
 }

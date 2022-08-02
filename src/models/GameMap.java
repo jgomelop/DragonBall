@@ -165,5 +165,9 @@ public class GameMap {
     public String[][] getPlayerMatrix() {
         return playerMatrix;
     }
+    
+    public int getEventValueInPos(Position pos){
+        return eventMatrix[pos.getI()][pos.getJ()];
+    }
 
 }

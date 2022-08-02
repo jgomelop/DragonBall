@@ -28,17 +28,19 @@ public class Enemy extends Character {
     }
 
     public int attack(Player p) {
-        int playerHp = p.getHp();
-        int playerDef = p.getDef();
         //generador  del numero aleatorio en el rango
-        //int daño = (int) Math.floor(this.min_atk + Math.random() * 16); // [0,1)
-        int daño = (int) (Math.random() * (this.max_atk - this.min_atk) + 1) + this.min_atk;
+        //int daño = (int) Math.floor(this.min_atk + Math.random() * 16); 
+        int enemyAtkValue = (int) Math.round(Math.random()*(this.max_atk - this.min_atk + 1) + this.min_atk);
         //daño reducido por la defensa
-        if (daño >= playerDef) {
-            return playerHp - daño + playerDef;
-        } else {
-            return playerHp;
-        }
+        
+        int effectiveDmgValue = enemyAtkValue - p.getDef();;
+        
+        if (effectiveDmgValue > 0) {
+            p.setHp( p.getHp() - effectiveDmgValue );
+            return effectiveDmgValue;
+        } 
+        
+        return 0;
     }
 
 }

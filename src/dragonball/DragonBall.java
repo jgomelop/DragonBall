@@ -42,10 +42,12 @@ public class DragonBall {
         return seleccion;
     }
 
-    public static void movementHandler(String selection, GameMap mapa) {
+    public static int movementHandler(String selection, GameMap mapa) {
         Position pos = mapa.getplayerPos();
         String old_i = String.valueOf(pos.getI());
         String old_j = String.valueOf(pos.getJ());
+
+        int currentPositionValue;
 
         switch (selection) {
             case "w":
@@ -53,7 +55,7 @@ public class DragonBall {
                 if (pos.getI() > 0) {
                     mapa.hideEventsAuxFunction(pos);
                     pos.setI(pos.getI() - 1);
-                    mapa.showEventsAuxFunction(pos); 
+                    mapa.showEventsAuxFunction(pos);
                 }
                 break;
 
@@ -90,15 +92,46 @@ public class DragonBall {
         String new_j = String.valueOf(pos.getJ());
 
         String msg = String.format("(%s,%s) -> (%s,%s)", old_i, old_j, new_i, new_j);
-
         System.out.println(msg);
         mapa.printPlayerMap();
 
+        return mapa.getEventValueInPos(pos);
     }
 
-    /**
-     * @param args the command line arguments
-     */
+    public static String eventHandler(int value, Player player, Enemy enemy) {
+        String msg;
+        if (value == 1) {
+            int eventSw = (int) Math.round(Math.random()*101); // random [0,100)
+            if (eventSw <= 25) {
+                
+                int healedValue = (player.getHp() == player.getMaxHealth()) ? 0 : player.heal();
+                
+                msg = player.getName() + " recupera " 
+                      + String.valueOf(healedValue) 
+                      + " HP";
+                return msg;
+                
+            } else if (eventSw > 25 && eventSw <= 65) {
+                int enemyDmgValue = enemy.attack(player);
+                
+                msg = player.getName() + " pierde " 
+                      + String.valueOf(enemyDmgValue) 
+                      + " HP";
+                return msg;
+                
+            } else {
+                int playerDmgValue = player.attack(enemy);
+                 msg = enemy.getName() + " pierde " 
+                      + String.valueOf(playerDmgValue) 
+                      + " HP";
+                return msg;
+            }
+        } else {
+            msg = "No sucede nada.";
+            return msg;
+        }
+    }
+
     public static void main(String[] args) {
 
         //creacion de personajes 
@@ -107,8 +140,8 @@ public class DragonBall {
         Player kirllin = new Player("Kirllin", 90, 8, 8);
         Enemy freezer = new Enemy("Freezer", 300, 5);
 
-
         GameMap map = new GameMap();
+        map.printPlayerMap();
 
         String sel;
         while (true) {
@@ -119,7 +152,10 @@ public class DragonBall {
             } else if (sel.equals("p")) {
                 map.printPlayerMap();
             } else {
-                movementHandler(sel, map);
+                int eventValue = movementHandler(sel, map);
+                String eventMsg = eventHandler(eventValue, goku, freezer);
+                System.out.println(eventMsg);
+
             }
         }
 
