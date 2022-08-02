@@ -47,8 +47,6 @@ public class DragonBall {
         String old_i = String.valueOf(pos.getI());
         String old_j = String.valueOf(pos.getJ());
 
-        int currentPositionValue;
-
         switch (selection) {
             case "w":
 

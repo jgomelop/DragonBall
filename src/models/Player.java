@@ -39,7 +39,7 @@ public class Player extends Character {
 
     public int heal() {
 
-        int vidaRegenerada = (int) (Math.random() * 10 + 1);
+        int vidaRegenerada = (int) Math.round(Math.random()*(10 - 1 + 1) + 1);
         this.hp += vidaRegenerada;
         return vidaRegenerada;
     }
