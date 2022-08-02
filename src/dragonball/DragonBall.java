@@ -113,9 +113,12 @@ public class DragonBall {
         String new_i = String.valueOf(pos.getI());
         String new_j = String.valueOf(pos.getJ());
 
+        mapa.printPlayerMap();
+        
         String msg = String.format("(%s,%s) -> (%s,%s)", old_i, old_j, new_i, new_j);
         System.out.println(msg);
-        mapa.printPlayerMap();
+        
+        
 
         return mapa.getEventValueInPos(pos);
     }
@@ -161,7 +164,7 @@ public class DragonBall {
         Player goku = new Player("Goku", 120, 22, 10);
         Player vegetta = new Player("Vegetta", 150, 15, 20);
         Player kirllin = new Player("Kirllin", 90, 8, 8);
-        Enemy freezer = new Enemy("Freezer", 300, 5);
+        Enemy enemy = new Enemy("Freezer", 300, 5);
         
         Player player;
         
@@ -182,7 +185,7 @@ public class DragonBall {
                 player = kirllin;
                 break;
             }
-            
+
             count += 1;
             System.out.println("Parámentro no válido.");
         }
@@ -190,6 +193,7 @@ public class DragonBall {
         GameMap map = new GameMap();
         map.printPlayerMap();
 
+        // MAIN LOOP
         String sel;
         while (true) {
             System.out.println("");
@@ -200,9 +204,26 @@ public class DragonBall {
                 map.printPlayerMap();
             } else {
                 int eventValue = movementHandler(sel, map);
-                String eventMsg = eventHandler(eventValue, player, freezer);
+                String eventMsg = eventHandler(eventValue, player, enemy);
                 System.out.println(eventMsg);
+                
+                if (player.getHp() <= 0){
+                    System.out.println("Has perdido!");
+                    System.out.printf("ültima Posición: (%d,%d)", 
+                                      map.getplayerPos().getI(),
+                                      map.getplayerPos().getJ());
+                    
+                    break;
+                }
+                else if (enemy.getHp() <= 0 
+                        || (map.getplayerPos().getI() == 4 
+                            && map.getplayerPos().getJ() == 4)) {
+                    
+                    System.out.println("Has Ganado!");
+                    break;
+                }
             }
+            
         }
 
     }
