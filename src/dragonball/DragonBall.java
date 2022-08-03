@@ -1,20 +1,16 @@
 package dragonball;
 
-import java.util.Random;
-import dao.LinkedList;
 import models.Player;
 import models.Enemy;
 import java.util.Scanner;
 import models.GameMap;
 import models.Position;
 import models.Event;
-import java.util.*;
+import java.util.List;
+import java.util.Arrays;
+import java.util.LinkedList;
+import models.Record;
 
-/**
- *
- * @author Juan Pablo Gómez López Santiago Bañol villa
- *
- */
 public class DragonBall {
 
     public static String playerSelectionMenu() {
@@ -55,7 +51,6 @@ public class DragonBall {
                 "a: Mover a la izquierda",
                 "s: Mover abajo",
                 "d: Mover a la derecha",
-                "p: Mostrar mapa",
                 "e: salir",
                 separador
         );
@@ -120,7 +115,7 @@ public class DragonBall {
         String msg = String.format("(%s,%s) -> (%s,%s)", old_i, old_j, new_i, new_j);
         System.out.println(msg);
 
-        return Arrays.asList(msg,mapa.getEventValueInPos(pos));
+        return Arrays.asList(msg, mapa.getEventValueInPos(pos));
     }
 
     public static Event eventHandler(int value, Player player, Enemy enemy) {
@@ -191,54 +186,55 @@ public class DragonBall {
                 player = kirllin;
                 break;
             }
-
             count += 1;
             System.out.println("Parámentro no válido.");
         }
 
         int gamePoints = 0;
-
         GameMap map = new GameMap();
         map.printPlayerMap();
-
-        // MAIN LOOP
+        List<Record> gameRecords = new LinkedList<Record>();
+        
         String sel;
         while (true) {
             System.out.println("");
             sel = movementMenu();
+            
             if (sel.equals("e")) {
                 break;
-            } else if (sel.equals("p")) {
-                map.printPlayerMap();
-            } else {
-                List<Object> movement = movementHandler(sel, map);
-                String movementMsg = (String) movement.get(0);
-                int eventValue = (int) movement.get(1);
-                Event event = eventHandler(eventValue, player, enemy);
-                String eventMsg = event.getMsg();
-                int eventEarnedPoints = event.getEarnedPoints();
-                gamePoints += eventEarnedPoints;
+            }
+            
+            List<Object> movement = movementHandler(sel, map);
+            String movementMsg = (String) movement.get(0);
+            int eventValue = (int) movement.get(1);
+            Event event = eventHandler(eventValue, player, enemy);
+            String eventMsg = event.getMsg();
+            int eventEarnedPoints = event.getEarnedPoints();
+            gamePoints += eventEarnedPoints;
 
-                System.out.println(eventMsg);
-                System.out.printf("PV de %s: %d\n", player.getName(), player.getHp());
-                System.out.printf("PV de %s: %d\n", enemy.getName(), enemy.getHp());
-                System.out.printf("Puntos: %d\n", gamePoints);
+            gameRecords.add(new Record(movementMsg,
+                    map.getplayerPos(),
+                    event,
+                    gamePoints));
 
-                if (player.getHp() <= 0) {
-                    System.out.println("Has perdido!\n");
-                    System.out.printf("ültima Posición: (%d,%d)\n",
-                            map.getplayerPos().getI(),
-                            map.getplayerPos().getJ());
+            System.out.println(eventMsg);
+            System.out.printf("PV de %s: %d\n", player.getName(), player.getHp());
+            System.out.printf("PV de %s: %d\n", enemy.getName(), enemy.getHp());
+            System.out.printf("Puntos: %d\n", gamePoints);
 
-                    break;
-                } else if (enemy.getHp() <= 0
-                        || (map.getplayerPos().getI() == 4
-                        && map.getplayerPos().getJ() == 4)) {
+            if (player.getHp() <= 0) {
+                System.out.println("Has perdido!\n");
+                System.out.printf("ültima Posición: (%d,%d)\n",
+                        map.getplayerPos().getI(),
+                        map.getplayerPos().getJ());
 
-                    System.out.println("Has Ganado!");
-                    break;
-                }
+                break;
+            } else if (enemy.getHp() <= 0
+                    || (map.getplayerPos().getI() == 4
+                    && map.getplayerPos().getJ() == 4)) {
 
+                System.out.println("Has Ganado!\n");
+                break;
             }
 
         }
