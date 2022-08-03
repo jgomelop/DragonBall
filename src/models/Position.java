@@ -41,6 +41,6 @@ public class Position {
 
     @Override
     public String toString() {
-        return "Position{" + "i=" + i + ", j=" + j + '}';
+        return String.format(" (%d , %d) ", this.i,this.j);
     }
 }

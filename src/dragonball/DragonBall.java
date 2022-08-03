@@ -8,6 +8,7 @@ import java.util.Scanner;
 import models.GameMap;
 import models.Position;
 import models.Event;
+import java.util.*;
 
 /**
  *
@@ -67,7 +68,7 @@ public class DragonBall {
         return seleccion;
     }
 
-    public static int movementHandler(String selection, GameMap mapa) {
+    public static List<Object> movementHandler(String selection, GameMap mapa) {
         Position pos = mapa.getplayerPos();
         String old_i = String.valueOf(pos.getI());
         String old_j = String.valueOf(pos.getJ());
@@ -114,11 +115,12 @@ public class DragonBall {
         String new_i = String.valueOf(pos.getI());
         String new_j = String.valueOf(pos.getJ());
 
-        //mapa.printPlayerMap();
+        mapa.printPlayerMap();
+        System.out.println("");
         String msg = String.format("(%s,%s) -> (%s,%s)", old_i, old_j, new_i, new_j);
         System.out.println(msg);
 
-        return mapa.getEventValueInPos(pos);
+        return Arrays.asList(msg,mapa.getEventValueInPos(pos));
     }
 
     public static Event eventHandler(int value, Player player, Enemy enemy) {
@@ -209,7 +211,9 @@ public class DragonBall {
             } else if (sel.equals("p")) {
                 map.printPlayerMap();
             } else {
-                int eventValue = movementHandler(sel, map);
+                List<Object> movement = movementHandler(sel, map);
+                String movementMsg = (String) movement.get(0);
+                int eventValue = (int) movement.get(1);
                 Event event = eventHandler(eventValue, player, enemy);
                 String eventMsg = event.getMsg();
                 int eventEarnedPoints = event.getEarnedPoints();
@@ -221,8 +225,8 @@ public class DragonBall {
                 System.out.printf("Puntos: %d\n", gamePoints);
 
                 if (player.getHp() <= 0) {
-                    System.out.println("Has perdido!");
-                    System.out.printf("ültima Posición: (%d,%d)",
+                    System.out.println("Has perdido!\n");
+                    System.out.printf("ültima Posición: (%d,%d)\n",
                             map.getplayerPos().getI(),
                             map.getplayerPos().getJ());
 
