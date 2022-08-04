@@ -1,9 +1,5 @@
 package models;
 
-/**
- *
- * @author Juan Pablo
- */
 public class GameMap {
 
     private String[][] playerMatrix = new String[5][5];

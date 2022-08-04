@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package models;
 
-/**
- *
- * @author Juan Pablo
- */
 public class Position {
     private int i; // Row position in matrix
     private int j; // Column position in matrix

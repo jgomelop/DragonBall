@@ -1,3 +1,11 @@
+/**
+ * Autores:
+ * Juan Pablo Gómez López
+ * carolina melguizo pemberty
+ * Iván Daniel Mejía Gaspar
+ * Santiago Bañol VIlla
+ */
+
 package dragonball;
 
 import models.Player;
