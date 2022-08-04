@@ -69,7 +69,7 @@ public class GameMap {
 
     }
 
-    public void hideEventsAuxFunction(Position pos) {
+    public void hideEvents(Position pos) {
         int i = pos.getI();
         int j = pos.getJ();
         try {
@@ -94,7 +94,7 @@ public class GameMap {
 
     }
 
-    public void showEventsAuxFunction(Position pos) {
+    public void showEvents(Position pos) {
         int i = pos.getI();
         int j = pos.getJ();
 
@@ -123,14 +123,6 @@ public class GameMap {
 
         this.playerPos = pos;
 
-    }
-
-    public void updatePlayerMatrix(Position pos) {
-
-        hideEventsAuxFunction(this.playerPos);
-        showEventsAuxFunction(pos);
-
-        this.playerPos = pos;
     }
 
     /* Imprime el matriz de String de jugador en pantalla */
