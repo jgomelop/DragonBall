@@ -9,16 +9,14 @@ package models;
  *
  * @author Juan Pablo
  */
-public class Character {
-    private String name;
-    private int hp;
-    private int atk;
-    private int def;
+public abstract class Character {
+    protected String name;
+    protected int hp;
+    protected int def;
 
-    public Character(String name, int hp, int atk, int def) {
+    public Character(String name, int hp, int def) {
         this.name = name;
         this.hp = hp;
-        this.atk = atk;
         this.def = def;
     }
 
@@ -41,14 +39,6 @@ public class Character {
         this.hp = hp;
     }
 
-    public int getAtk() {
-        return atk;
-    }
-
-    public void setAtk(int atk) {
-        this.atk = atk;
-    }
-
     public int getDef() {
         return def;
     }
@@ -56,10 +46,10 @@ public class Character {
     public void setDef(int def) {
         this.def = def;
     }
-
+    
     @Override
     public String toString() {
-        return "Character{" + "name=" + name + ", hp=" + hp + ", atk=" + atk + ", def=" + def + '}';
+        return "Character{" + "name=" + name + ", hp=" + hp + ", def=" + def + '}';
     }
     
 }
