@@ -4,6 +4,7 @@
  * carolina melguizo pemberty
  * Iván Daniel Mejía Gaspar
  * Santiago Bañol VIlla
+ * José Antonio Muñoz Arrieta
  */
 
 package dragonball;
