@@ -153,9 +153,6 @@ public class GameMap {
     }
 
     /**
-     *
-     * @param i Valor de la i-ésima fila a consultar
-     * @param j Valor de la j-ésima columna a consultar
      * @return Valor String de la posición (i,j) de la matriz
      */
     public Position getplayerPos() {

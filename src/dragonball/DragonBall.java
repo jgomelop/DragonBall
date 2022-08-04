@@ -110,12 +110,19 @@ public class DragonBall {
         String new_i = String.valueOf(pos.getI());
         String new_j = String.valueOf(pos.getJ());
 
-        mapa.printPlayerMap();
-        System.out.println("");
-        String msg = String.format("(%s,%s) -> (%s,%s)", old_i, old_j, new_i, new_j);
-        System.out.println(msg);
-
-        return Arrays.asList(msg, mapa.getEventValueInPos(pos));
+        if (old_i.equals(new_i) && old_j.equals(new_j)) {
+            mapa.printPlayerMap();
+            System.out.println("");
+            String msg = String.format("Sin Movimiento: (%s,%s)", new_i, new_j);
+            System.out.println(msg);
+            return Arrays.asList("Sin movimiento", -1);
+        } else {
+            mapa.printPlayerMap();
+            System.out.println("");
+            String msg = String.format("(%s,%s) -> (%s,%s)", old_i, old_j, new_i, new_j);
+            System.out.println(msg);
+            return Arrays.asList(msg, mapa.getEventValueInPos(pos));
+        }
     }
 
     public static Event eventHandler(int value, Player player, Enemy enemy) {
@@ -194,47 +201,51 @@ public class DragonBall {
         GameMap map = new GameMap();
         map.printPlayerMap();
         List<Record> gameRecords = new LinkedList<Record>();
-        
+
         String sel;
         while (true) {
             System.out.println("");
             sel = movementMenu();
-            
+
             if (sel.equals("e")) {
                 break;
             }
-            
+
             List<Object> movement = movementHandler(sel, map);
             String movementMsg = (String) movement.get(0);
             int eventValue = (int) movement.get(1);
-            Event event = eventHandler(eventValue, player, enemy);
-            String eventMsg = event.getMsg();
-            int eventEarnedPoints = event.getEarnedPoints();
-            gamePoints += eventEarnedPoints;
 
-            gameRecords.add(new Record(movementMsg,
-                    map.getplayerPos(),
-                    event,
-                    gamePoints));
+            if (eventValue != -1) {
+                Event event = eventHandler(eventValue, player, enemy);
+                String eventMsg = event.getMsg();
+                int eventEarnedPoints = event.getEarnedPoints();
+                gamePoints += eventEarnedPoints;
 
-            System.out.println(eventMsg);
-            System.out.printf("PV de %s: %d\n", player.getName(), player.getHp());
-            System.out.printf("PV de %s: %d\n", enemy.getName(), enemy.getHp());
-            System.out.printf("Puntos: %d\n", gamePoints);
+                gameRecords.add(new Record(movementMsg,
+                        map.getplayerPos(),
+                        event,
+                        gamePoints));
 
-            if (player.getHp() <= 0) {
-                System.out.println("Has perdido!\n");
-                System.out.printf("ültima Posición: (%d,%d)\n",
-                        map.getplayerPos().getI(),
-                        map.getplayerPos().getJ());
+                System.out.println(eventMsg);
+                System.out.printf("PV de %s: %d\n", player.getName(), player.getHp());
+                System.out.printf("PV de %s: %d\n", enemy.getName(), enemy.getHp());
+                System.out.printf("Puntos: %d\n", gamePoints);
 
-                break;
-            } else if (enemy.getHp() <= 0
-                    || (map.getplayerPos().getI() == 4
-                    && map.getplayerPos().getJ() == 4)) {
+                if (player.getHp() <= 0) {
+                    System.out.println("Has perdido!\n");
+                    System.out.printf("ültima Posición: (%d,%d)\n",
+                            map.getplayerPos().getI(),
+                            map.getplayerPos().getJ());
 
-                System.out.println("Has Ganado!\n");
-                break;
+                    break;
+                } else if (enemy.getHp() <= 0
+                        || (map.getplayerPos().getI() == 4
+                        && map.getplayerPos().getJ() == 4)) {
+
+                    System.out.println("Has Ganado!\n");
+                    break;
+                }
+
             }
 
         }
